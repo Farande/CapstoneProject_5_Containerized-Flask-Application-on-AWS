@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Complaint {{ complaint.complaint_id }} | ClearDesk{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="section-eyebrow">ADMIN WORKSPACE · CASE REVIEW</span>
+        <h1>Complaint details</h1>
+        <p>Review the submission and record an update.</p>
+    </div>
+    <a href="{{ url_for('all_complaints') }}" class="btn btn-light">← All complaints</a>
+</section>
+
+<div class="detail-layout">
+    <section class="content-panel case-panel">
+        <div class="case-heading">
+            <div><span class="section-eyebrow">COMPLAINT REFERENCE</span><h2>{{ complaint.complaint_id }}</h2></div>
+            <span class="status-pill status-{{ complaint.status|lower|replace(' ', '-') }}">{{ complaint.status }}</span>
+        </div>
+        <div class="case-meta-grid">
+            <div><span>Category</span><strong>{{ complaint.complaint_type }}</strong></div>
+            <div><span>Department</span><strong>{{ complaint.department_name }}</strong></div>
+            <div><span>Priority</span><strong><span class="priority-pill priority-{{ complaint.priority|lower }}">{{ complaint.priority }}</span></strong></div>
+            <div><span>Submitted</span><strong>{{ complaint.created_at }}</strong></div>
+        </div>
+        <div class="case-section">
+            <span class="section-eyebrow">EMPLOYEE</span>
+            <div class="employee-identity">
+                <span class="identity-avatar">{{ complaint.employee_name[:1]|upper }}</span>
+                <div><strong>{{ complaint.employee_name }}</strong><span>{{ complaint.employee_id }} · {{ complaint.email }}</span></div>
+            </div>
+        </div>
+        <div class="case-section">
+            <span class="section-eyebrow">DESCRIPTION</span>
+            <div class="case-description">{{ complaint.description }}</div>
+        </div>
+        {% if complaint.resolution %}
+        <div class="case-section">
+            <span class="section-eyebrow">CURRENT RESOLUTION</span>
+            <div class="resolution-note">{{ complaint.resolution }}</div>
+        </div>
+        {% endif %}
+    </section>
+
+    <aside class="content-panel update-panel">
+        <div class="panel-heading"><div><h2>Update case</h2><p>Keep the employee informed.</p></div></div>
+        <form method="POST" class="app-form">
+            <div class="field-group">
+                <label for="status">Complaint status</label>
+                <select id="status" name="status" class="form-select">
+                    <option {% if complaint.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option {% if complaint.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                    <option {% if complaint.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                    <option {% if complaint.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                </select>
+            </div>
+            <div class="field-group">
+                <label for="resolution">Resolution or update</label>
+                <textarea id="resolution" name="resolution" class="form-control" rows="8" placeholder="Share an update or explain how this was resolved...">{{ complaint.resolution or "" }}</textarea>
+                <span class="field-help">This update will be visible to the employee.</span>
+            </div>
+            <button class="btn btn-primary w-100" type="submit">Save case update <span aria-hidden="true">→</span></button>
+        </form>
+    </aside>
+</div>
+{% endblock %}

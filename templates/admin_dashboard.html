@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Admin overview | ClearDesk{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="section-eyebrow">ADMIN WORKSPACE</span>
+        <h1>Organization overview</h1>
+        <p>Monitor incoming complaints and keep cases moving forward.</p>
+    </div>
+    <a href="{{ url_for('all_complaints') }}" class="btn btn-primary">Open complaint queue <span aria-hidden="true">→</span></a>
+</section>
+
+<section class="stats-grid admin-stats" aria-label="Organization complaint summary">
+    <article class="metric-card metric-total"><span class="metric-label">All complaints</span><strong class="metric-value">{{ total }}</strong><span class="metric-caption">Across the organization</span><span class="metric-decoration" aria-hidden="true">◎</span></article>
+    <article class="metric-card metric-pending"><span class="metric-label">Pending</span><strong class="metric-value">{{ pending }}</strong><span class="metric-caption">Need a first review</span><span class="metric-decoration" aria-hidden="true">◷</span></article>
+    <article class="metric-card metric-progress"><span class="metric-label">In progress</span><strong class="metric-value">{{ in_progress }}</strong><span class="metric-caption">Currently being addressed</span><span class="metric-decoration" aria-hidden="true">↗</span></article>
+    <article class="metric-card metric-resolved"><span class="metric-label">Resolved</span><strong class="metric-value">{{ resolved }}</strong><span class="metric-caption">Successfully closed</span><span class="metric-decoration" aria-hidden="true">✓</span></article>
+</section>
+
+<section class="content-panel admin-actions-panel">
+    <div class="panel-heading"><div><h2>Manage your response</h2><p>Review cases and turn organizational feedback into action.</p></div></div>
+    <div class="admin-action-grid">
+        <a class="admin-action-card" href="{{ url_for('all_complaints') }}"><span class="action-card-icon action-icon-blue" aria-hidden="true">▤</span><span><strong>Complaint queue</strong><small>Review submissions and update case status.</small></span><span class="action-arrow" aria-hidden="true">→</span></a>
+        <a class="admin-action-card" href="{{ url_for('analytics') }}"><span class="action-card-icon action-icon-violet" aria-hidden="true">▥</span><span><strong>Department analytics</strong><small>Explore volume and resolutions by team.</small></span><span class="action-arrow" aria-hidden="true">→</span></a>
+    </div>
+</section>
+{% endblock %}

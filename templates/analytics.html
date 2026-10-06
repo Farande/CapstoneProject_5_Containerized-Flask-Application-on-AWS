@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Analytics | ClearDesk{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/analytics.js') }}" defer></script>
+{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="section-eyebrow">ADMIN WORKSPACE · INSIGHTS</span>
+        <h1>Complaint analytics</h1>
+        <p>Understand complaint volume and resolution progress by department.</p>
+    </div>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light">← Overview</a>
+</section>
+
+<section class="charts-grid">
+    <article class="content-panel chart-panel">
+        <div class="panel-heading"><div><h2>Resolved complaints</h2><p>Resolved cases across departments</p></div><span class="chart-legend-dot resolved-dot"></span></div>
+        <div class="chart-frame"><canvas id="resolvedChart"></canvas></div>
+    </article>
+    <article class="content-panel chart-panel">
+        <div class="panel-heading"><div><h2>Complaint status</h2><p>Current case mix by department</p></div><span class="chart-legend-dot status-dot"></span></div>
+        <div class="chart-frame"><canvas id="statusChart"></canvas></div>
+    </article>
+</section>
+
+<section class="content-panel table-panel analytics-table-panel">
+    <div class="panel-heading"><div><h2>Department performance</h2><p>Complaint totals and status breakdown</p></div></div>
+    <div class="table-responsive">
+        <table class="table app-table align-middle">
+            <thead><tr><th>Department</th><th>Total</th><th>Resolved</th><th>Pending</th><th>In progress</th></tr></thead>
+            <tbody>
+            {% for item in department_data %}
+                <tr>
+                    <td class="table-primary-text">{{ item.department_name }}</td>
+                    <td>{{ item.total_complaints }}</td>
+                    <td><span class="status-pill status-resolved">{{ item.resolved_complaints or 0 }}</span></td>
+                    <td><span class="status-pill status-pending">{{ item.pending_complaints or 0 }}</span></td>
+                    <td><span class="status-pill status-in-progress">{{ item.in_progress_complaints or 0 }}</span></td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5"><div class="empty-state"><strong>No department data</strong><span>Department statistics will appear here.</span></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+<div id="department-data" data-departments='{{ department_data | tojson | safe }}' hidden></div>
+{% endblock %}

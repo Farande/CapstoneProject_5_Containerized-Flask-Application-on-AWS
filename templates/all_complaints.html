@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}All complaints | ClearDesk{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="section-eyebrow">ADMIN WORKSPACE · CASE MANAGEMENT</span>
+        <h1>All complaints</h1>
+        <p>Review, prioritize, and follow up on employee submissions.</p>
+    </div>
+    <a href="{{ url_for('analytics') }}" class="btn btn-light">View analytics <span aria-hidden="true">↗</span></a>
+</section>
+
+<section class="content-panel table-panel">
+    <div class="panel-heading">
+        <div><h2>Complaint queue</h2><p>All complaints submitted across the organization</p></div>
+        <span class="result-count">{{ complaints|length }} cases</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table app-table align-middle">
+            <thead><tr><th>Complaint</th><th>Employee</th><th>Department</th><th>Category</th><th>Priority</th><th>Status</th><th>Submitted</th><th></th></tr></thead>
+            <tbody>
+            {% for complaint in complaints %}
+                <tr>
+                    <td><span class="table-primary-text">{{ complaint.complaint_id }}</span></td>
+                    <td><div class="table-person"><span class="table-avatar">{{ complaint.employee_name[:1]|upper }}</span><span>{{ complaint.employee_name }}</span></div></td>
+                    <td>{{ complaint.department_name }}</td>
+                    <td>{{ complaint.complaint_type }}</td>
+                    <td><span class="priority-pill priority-{{ complaint.priority|lower }}">{{ complaint.priority }}</span></td>
+                    <td><span class="status-pill status-{{ complaint.status|lower|replace(' ', '-') }}">{{ complaint.status }}</span></td>
+                    <td>{{ complaint.created_at }}</td>
+                    <td><a href="{{ url_for('complaint_details', complaint_id=complaint.complaint_id) }}" class="table-action">Review <span aria-hidden="true">→</span></a></td>
+                </tr>
+            {% else %}
+                <tr><td colspan="8"><div class="empty-state"><span class="empty-state-icon" aria-hidden="true">▤</span><strong>No complaints in the queue</strong><span>New employee submissions will appear here.</span></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

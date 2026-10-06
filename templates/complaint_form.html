@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}New complaint | ClearDesk{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="section-eyebrow">EMPLOYEE PORTAL · NEW SUBMISSION</span>
+        <h1>Tell us what’s happening.</h1>
+        <p>Share the details so your concern can be directed to the right team.</p>
+    </div>
+    <a href="{{ url_for('employee_dashboard') }}" class="btn btn-light">← Back to overview</a>
+</section>
+
+<div class="form-layout">
+    <section class="content-panel complaint-form-panel">
+        <div class="panel-heading"><div><h2>Complaint details</h2><p>Fields marked required must be completed.</p></div><span class="form-step">01 <span>/ 01</span></span></div>
+        <form method="POST" class="app-form">
+            <div class="field-group">
+                <label for="complaint_type">What is this about? <span class="required-mark">*</span></label>
+                <select id="complaint_type" name="complaint_type" class="form-select" required>
+                    <option value="" selected disabled>Select a complaint category</option>
+                    <option>Laptop Not Working</option>
+                    <option>Network Issue</option>
+                    <option>Internet Problem</option>
+                    <option>Printer Problem</option>
+                    <option>Email Problem</option>
+                    <option>Software Issue</option>
+                    <option>Server Issue</option>
+                    <option>Hardware Problem</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="field-group">
+                <label for="priority">How urgent is this? <span class="required-mark">*</span></label>
+                <select id="priority" name="priority" class="form-select" required>
+                    <option>Low</option>
+                    <option selected>Medium</option>
+                    <option>High</option>
+                    <option>Critical</option>
+                </select>
+                <span class="field-help">Choose the level that best describes the impact.</span>
+            </div>
+            <div class="field-group">
+                <label for="description">Describe your concern <span class="required-mark">*</span></label>
+                <textarea id="description" name="description" class="form-control" rows="7" placeholder="Include what happened, when it started, and any details that might help us respond." required></textarea>
+                <span class="field-help">Please avoid including passwords or other sensitive account details.</span>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Submit complaint <span aria-hidden="true">→</span></button>
+                <a href="{{ url_for('employee_dashboard') }}" class="btn btn-light">Cancel</a>
+            </div>
+        </form>
+    </section>
+    <aside class="side-note-panel">
+        <div class="side-note-icon" aria-hidden="true">✦</div>
+        <span class="section-eyebrow">WHAT HAPPENS NEXT</span>
+        <h2>Your concern is in good hands.</h2>
+        <ol class="process-list">
+            <li><span>1</span><div><strong>We receive your report</strong><p>Your submission is securely recorded.</p></div></li>
+            <li><span>2</span><div><strong>The right team reviews it</strong><p>An administrator will assess and update the status.</p></div></li>
+            <li><span>3</span><div><strong>You follow progress</strong><p>Check back in My complaints for updates.</p></div></li>
+        </ol>
+        <p class="privacy-note">Your information is only used to help address your concern.</p>
+    </aside>
+</div>
+{% endblock %}

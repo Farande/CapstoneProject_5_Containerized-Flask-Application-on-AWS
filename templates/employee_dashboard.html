@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Your overview | ClearDesk{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="section-eyebrow">EMPLOYEE PORTAL</span>
+        <h1>Good to see you, {{ session.name }}.</h1>
+        <p>Here’s a quick overview of your workplace concerns.</p>
+    </div>
+    <a href="{{ url_for('new_complaint') }}" class="btn btn-primary"><span aria-hidden="true">＋</span> New complaint</a>
+</section>
+
+<section class="stats-grid" aria-label="Complaint summary">
+    <article class="metric-card metric-total">
+        <span class="metric-label">Total complaints</span>
+        <strong class="metric-value">{{ total }}</strong>
+        <span class="metric-caption">Submitted by you</span>
+        <span class="metric-decoration" aria-hidden="true">◎</span>
+    </article>
+    <article class="metric-card metric-pending">
+        <span class="metric-label">Awaiting action</span>
+        <strong class="metric-value">{{ pending }}</strong>
+        <span class="metric-caption">Currently pending</span>
+        <span class="metric-decoration" aria-hidden="true">◷</span>
+    </article>
+    <article class="metric-card metric-resolved">
+        <span class="metric-label">Resolved</span>
+        <strong class="metric-value">{{ resolved }}</strong>
+        <span class="metric-caption">Closed successfully</span>
+        <span class="metric-decoration" aria-hidden="true">✓</span>
+    </article>
+</section>
+
+<section class="content-panel welcome-panel">
+    <div class="welcome-symbol" aria-hidden="true">✦</div>
+    <div>
+        <span class="section-eyebrow">YOUR NEXT STEP</span>
+        <h2>Need help with something at work?</h2>
+        <p>Tell us what’s happening. Your concern will be recorded and you can follow its progress here.</p>
+        <div class="button-row">
+            <a href="{{ url_for('new_complaint') }}" class="btn btn-primary">Submit a complaint <span aria-hidden="true">→</span></a>
+            <a href="{{ url_for('complaint_history') }}" class="btn btn-light">View my complaints</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

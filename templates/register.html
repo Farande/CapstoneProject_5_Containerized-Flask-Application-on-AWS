@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Create your account | ClearDesk{% endblock %}
+{% block body_class %}app-shell auth-page{% endblock %}
+{% block content %}
+<section class="auth-layout register-layout">
+    <div class="auth-story">
+        <span class="section-eyebrow">EMPLOYEE ONBOARDING</span>
+        <h1>Get started<br>with ClearDesk.</h1>
+        <p>Create your secure employee account to submit a workplace concern and keep track of updates.</p>
+        <div class="auth-benefit-list">
+            <div><span>01</span><p><strong>One place to be heard</strong><br>Share a concern with the right team.</p></div>
+            <div><span>02</span><p><strong>Know where things stand</strong><br>Follow progress from your dashboard.</p></div>
+            <div><span>03</span><p><strong>Private by design</strong><br>Your account is protected.</p></div>
+        </div>
+    </div>
+    <div class="auth-card register-card">
+        <div class="auth-card-heading">
+            <span class="auth-icon" aria-hidden="true">＋</span>
+            <div>
+                <span class="section-eyebrow">CREATE ACCOUNT</span>
+                <h2>Employee registration</h2>
+            </div>
+        </div>
+        <p class="auth-intro">A few details to set up your account.</p>
+        <form method="POST" class="app-form">
+            <div class="field-group">
+                <label for="employee_id">Employee ID</label>
+                <input id="employee_id" type="text" name="employee_id" class="form-control" placeholder="e.g. EMP1001" autocomplete="off" required>
+            </div>
+            <div class="field-group">
+                <label for="name">Full name</label>
+                <input id="name" type="text" name="name" class="form-control" placeholder="Your name" autocomplete="name" required>
+            </div>
+            <div class="field-group">
+                <label for="email">Work email</label>
+                <input id="email" type="email" name="email" class="form-control" placeholder="you@company.com" autocomplete="email" required>
+            </div>
+            <div class="field-group">
+                <label for="department_id">Department</label>
+                <select id="department_id" name="department_id" class="form-select" required>
+                    <option value="" selected disabled>Select your department</option>
+                    {% for department in departments %}
+                        <option value="{{ department.id }}">{{ department.department_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" class="form-control" placeholder="Create a password" autocomplete="new-password" required>
+            </div>
+            <button class="btn btn-primary w-100 auth-submit" type="submit">Create account <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="auth-switch">Already registered? <a href="{{ url_for('login', portal='employee') }}">Sign in instead</a></p>
+    </div>
+</section>
+{% endblock %}

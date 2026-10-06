@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Admin' if portal_role == 'admin' else 'Employee' if portal_role == 'employee' else 'Account' }} sign in | ClearDesk{% endblock %}
+{% block body_class %}app-shell auth-page{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-story">
+        <span class="section-eyebrow">CLEAR DESK · {{ 'ADMIN WORKSPACE' if portal_role == 'admin' else 'EMPLOYEE PORTAL' if portal_role == 'employee' else 'YOUR WORKSPACE' }}</span>
+        <h1>{{ 'Lead with clarity.' if portal_role == 'admin' else 'Your voice matters.' }}</h1>
+        <p>{{ 'A thoughtful, organized space to review concerns and support fair outcomes.' if portal_role == 'admin' else 'Sign in to raise a concern, follow its progress, and stay informed.' }}</p>
+        <div class="auth-story-note"><span aria-hidden="true">✓</span> Private and secure access for your organization</div>
+    </div>
+    <div class="auth-card">
+        <div class="auth-card-heading">
+            <span class="auth-icon" aria-hidden="true">↗</span>
+            <div>
+                <span class="section-eyebrow">WELCOME BACK</span>
+                <h2>{{ 'Admin sign in' if portal_role == 'admin' else 'Employee sign in' if portal_role == 'employee' else 'Sign in' }}</h2>
+            </div>
+        </div>
+        <p class="auth-intro">Enter your account details to continue.</p>
+        <form method="POST" class="app-form">
+            <input type="hidden" name="portal" value="{{ portal_role or '' }}">
+            <div class="field-group">
+                <label for="email">Work email</label>
+                <input id="email" type="email" name="email" class="form-control" placeholder="you@company.com" autocomplete="username" required>
+            </div>
+            <div class="field-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" class="form-control" placeholder="Enter your password" autocomplete="current-password" required>
+            </div>
+            <button class="btn btn-primary w-100 auth-submit" type="submit">Continue <span aria-hidden="true">→</span></button>
+        </form>
+        {% if portal_role != 'admin' %}
+            <p class="auth-switch">New to ClearDesk? <a href="{{ url_for('register') }}">Create an employee account</a></p>
+        {% endif %}
+        <a class="auth-back-link" href="{{ url_for('home') }}">← Choose another workspace</a>
+    </div>
+</section>
+{% endblock %}

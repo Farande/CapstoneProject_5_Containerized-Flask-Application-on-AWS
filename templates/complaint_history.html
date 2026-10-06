@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}My complaints | ClearDesk{% endblock %}
+{% block content %}
+<section class="page-heading">
+    <div>
+        <span class="section-eyebrow">EMPLOYEE PORTAL</span>
+        <h1>My complaints</h1>
+        <p>Review your submissions and see the latest status.</p>
+    </div>
+    <a href="{{ url_for('new_complaint') }}" class="btn btn-primary"><span aria-hidden="true">＋</span> New complaint</a>
+</section>
+
+<section class="content-panel table-panel">
+    <div class="panel-heading">
+        <div><h2>Your submissions</h2><p>Complaint history and resolution updates</p></div>
+        <span class="result-count">{{ complaints|length }} total</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table app-table align-middle">
+            <thead><tr><th>Complaint</th><th>Department</th><th>Type</th><th>Priority</th><th>Status</th><th>Submitted</th><th>Resolution</th></tr></thead>
+            <tbody>
+            {% for complaint in complaints %}
+                <tr>
+                    <td><span class="table-primary-text">{{ complaint.complaint_id }}</span></td>
+                    <td>{{ complaint.department_name }}</td>
+                    <td>{{ complaint.complaint_type }}</td>
+                    <td><span class="priority-pill priority-{{ complaint.priority|lower }}">{{ complaint.priority }}</span></td>
+                    <td><span class="status-pill status-{{ complaint.status|lower|replace(' ', '-') }}">{{ complaint.status }}</span></td>
+                    <td>{{ complaint.created_at }}</td>
+                    <td class="resolution-cell">{{ complaint.resolution or "No update yet" }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="7"><div class="empty-state"><span class="empty-state-icon" aria-hidden="true">▤</span><strong>No complaints yet</strong><span>Your submissions will appear here.</span><a href="{{ url_for('new_complaint') }}">Submit your first complaint →</a></div></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
